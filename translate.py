@@ -2,7 +2,19 @@
 
 import sys
 
-def translate_sequence(rna_sequence, genetic_code):
+def translate_sequence(rna_sequence: str, genetic_code: dict) -> str:
+    rna_sequence = rna_sequence.upper()
+
+    amino_acids = []
+    # step through the sequence in codons of 3, ignoring leftover bases at the end
+    for i in range(0, len(rna_sequence) - (len(rna_sequence) % 3), 3):
+        codon = rna_sequence[i:i+3]
+        aa = genetic_code[codon]   # tests assume codons are valid
+        if aa == "*":              # stop codon
+            break
+        amino_acids.append(aa)
+
+    return "".join(amino_acids)
     """Translates a sequence of RNA into a sequence of amino acids.
 
     Translates `rna_sequence` into string of amino acids, according to the
