@@ -42,7 +42,29 @@ def translate_sequence(rna_sequence: str, genetic_code: dict) -> str:
     """
     pass
 
-def get_all_translations(rna_sequence, genetic_code):
+def get_all_translations(rna_sequence: str, genetic_code: dict) -> list[str]:
+    rna_sequence = rna_sequence.upper()
+    peptides = []
+
+    start_codon = "AUG"
+
+    # scan every position where a codon could start
+    for i in range(0, len(rna_sequence) - 2):
+        if rna_sequence[i:i+3] != start_codon:
+            continue
+
+        # translate from this AUG
+        peptide = []
+        for j in range(i, len(rna_sequence) - 2, 3):
+            codon = rna_sequence[j:j+3]
+            aa = genetic_code[codon]
+            if aa == "*":   # stop codon ends translation
+                break
+            peptide.append(aa)
+
+        peptides.append("".join(peptide))
+
+    return peptides
     """Get a list of all amino acid sequences encoded by an RNA sequence.
 
     All three reading frames of `rna_sequence` are scanned from 'left' to
