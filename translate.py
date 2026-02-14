@@ -94,7 +94,10 @@ def get_complement(sequence: str) -> str:
     """
     pass
 
-def reverse_and_complement(sequence):
+def reverse_and_complement(sequence: str) -> str:
+    sequence = sequence.upper()[::-1]
+    complement_map = {"A": "U", "U": "A", "C": "G", "G": "C"}
+    return "".join(complement_map[b] for b in sequence)
     """Get the reversed and complemented form of a `sequence` of nucleotides.
 
     Returns a string that is the reversed and complemented sequence
